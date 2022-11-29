@@ -11,10 +11,10 @@ on:
         type: string
        
 jobs:
-  defaults:
-    run:
-      working-directory: pilas-bloques-api
   package-release: #https://github.com/actions/upload-release-asset
+    defaults:
+      run:
+        working-directory: pilas-bloques-analytics
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2

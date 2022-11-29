@@ -6,10 +6,10 @@ on:
    types:
     - released
 jobs:
-  defaults:
-    run:
-      working-directory: pilas-bloques-analytics
   test:
+    defaults:
+      run:
+        working-directory: pilas-bloques-analytics
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
