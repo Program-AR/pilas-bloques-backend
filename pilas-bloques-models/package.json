@@ -11,7 +11,8 @@
     "release:patch": "npm version patch",
     "release:minor": "npm version minor",
     "release:major": "npm version major",
-    "prepublishOnly": "npm run prepublish && npm run release:$npm_config_type && git push origin"
+    "prepublishOnly": "npm run prepublish && npm run release:$npm_config_type && git push origin",
+    "postpublish": "node bump-analytics-api.js"
   },
   "repository": {
     "type": "git",
