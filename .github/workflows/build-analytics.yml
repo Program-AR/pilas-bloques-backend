@@ -6,6 +6,9 @@ on:
    types:
     - released
 jobs:
+  defaults:
+    run:
+      working-directory: pilas-bloques-analytics
   test:
     runs-on: ubuntu-latest
     steps:

@@ -2,6 +2,9 @@
 name: build-models
 on: [push]
 jobs:
+  defaults:
+    run:
+      working-directory: pilas-bloques-models
   test:
     runs-on: ubuntu-latest
     steps:

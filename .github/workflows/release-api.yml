@@ -11,6 +11,9 @@ on:
         type: string
        
 jobs:
+  defaults:
+    run:
+      working-directory: pilas-bloques-api
   package-release: #https://github.com/actions/upload-release-asset
     runs-on: ubuntu-latest
     steps:
