@@ -12,7 +12,7 @@
     "release:minor": "npm version minor",
     "release:major": "npm version major",
     "prepublishOnly": "npm run prepublish && npm run release:$npm_config_type && git push origin",
-    "postpublish": "node scripts/bump-analytics-api.js"
+    "postpublish": "node scripts/bump-analytics-api.js && cd .. && git add . && git commit -m \"Bumping models\" && git push origin"
   },
   "repository": {
     "type": "git",
