@@ -5,7 +5,7 @@ jobs:
   test:
     defaults:
       run:
-        working-directory: pilas-bloques-analytics
+        working-directory: pilas-bloques-models
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
