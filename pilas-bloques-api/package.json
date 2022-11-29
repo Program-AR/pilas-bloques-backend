@@ -1,0 +1,62 @@
+{
+  "name": "pilas-bloques-api",
+  "version": "1.1.4",
+  "description": "REST-API for logging Pilas Bloques usage for scientific purposes.",
+  "scripts": {
+    "dev": "nodemon --watch 'src/**/*.ts' --ignore 'src/**/*.spec.ts' --exec 'ts-node' src/index.ts",
+    "build": "tsc",
+    "lint": "eslint .",
+    "start": "node dist/src/index.js",
+    "test:noTimeout": "DOTENV_CONFIG_PATH=.env.test jest --setupFiles dotenv/config --colors --testPathIgnorePatterns dist --runInBand",
+    "test": "npm run test:noTimeout -- --testTimeout 5000",
+    "debugTest": "npm run test:noTimeout -- --watch",
+    "release:patch": "release patch",
+    "release:minor": "release minor",
+    "prepackage": "npm run build && cp -R node_modules dist/",
+    "package": "tar -czvf pilasbloques-api.tar.gz dist/*",
+    "updateModels": "cd ../pilas-bloques-models/ && rm -f *.tgz && npm run prepublish && npm pack && cd ../pilas-bloques-api/ && rm -Rf node_modules/pilas-bloques-models && npm install ../pilas-bloques-models/pilas-bloques-models-*.tgz"
+  },
+  "author": "Fundación Sadosky",
+  "license": "ISC",
+  "dependencies": {
+    "@typegoose/typegoose": "^7.6.1",
+    "cors": "^2.8.5",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^5.10.1",
+    "node-fetch": "^2.6.1",
+    "nodemailer": "^6.5.0",
+    "pilas-bloques-models": "^1.2.24",
+    "ts-node": "^9.0.0"
+  },
+  "devDependencies": {
+    "@types/cors": "^2.8.7",
+    "@types/express": "^4.17.7",
+    "@types/jest": "^26.0.10",
+    "@types/jsonwebtoken": "^8.5.0",
+    "@types/mongodb": "^3.5.26",
+    "@types/mongoose": "^5.7.36",
+    "@types/node": "^14.6.1",
+    "@types/node-fetch": "^2.5.7",
+    "@types/nodemailer": "^6.4.1",
+    "@types/sinon": "^10.0.0",
+    "@types/supertest": "^2.0.10",
+    "@typescript-eslint/eslint-plugin": "^4.0.1",
+    "@typescript-eslint/parser": "^4.0.1",
+    "eslint": "^7.8.1",
+    "fetch-mock": "^9.11.0",
+    "jest": "^26.4.2",
+    "nodemon": "^2.0.4",
+    "release": "^6.3.0",
+    "sinon": "^10.0.0",
+    "supertest": "^4.0.2",
+    "ts-jest": "^26.3.0",
+    "typescript": "^4.0.2"
+  },
+  "jest": {
+    "preset": "ts-jest",
+    "testEnvironment": "node",
+    "collectCoverage": false
+  }
+}
