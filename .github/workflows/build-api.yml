@@ -38,7 +38,7 @@ jobs:
   package-release:
     if: github.event_name == 'release'
     needs: test
-    uses: Program-AR/pilas-bloques-backend/pilas-bloques-api/.github/workflows/release.yml@master
+    uses: Program-AR/pilas-bloques-backend/.github/workflows/release-api.yml@main
     with:
       asset_name: pilasbloques-api.tar.gz
       asset_path: ./pilasbloques-api.tar.gz
