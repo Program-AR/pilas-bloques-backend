@@ -1,3 +1,5 @@
+const fs = require('fs')
+
 const version = require("../package.json").version
 
 const analyticsPath = "../../pilas-bloques-analytics/package.json"
@@ -7,11 +9,10 @@ const analytics = require(analyticsPath)
 
 const api = require(apiPath)
 
-analytics.dependencies['pilas-bloques-models'] = "adsfasdf"
-api.dependencies['pilas-bloques-models'] = `^${version}`
+function bumpModels(project, path){
+    project.dependencies['pilas-bloques-models'] = `^${version}`
+    fs.writeFileSync(path, JSON.stringify(project, null, 2))
+}
 
-console.log(analytics)
-
-const fs = require('fs')
-
-fs.writeFileSync(analyticsPath, JSON.stringify(analytics))
+bumpModels(analytics, analyticsPath)
+bumpModels(api, apiPath)
