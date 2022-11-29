@@ -27,7 +27,7 @@
     "mongoose": "^5.10.1",
     "node-fetch": "^2.6.1",
     "nodemailer": "^6.5.0",
-    "pilas-bloques-models": "^1.2.24",
+    "pilas-bloques-models": "^1.2.25",
     "ts-node": "^9.0.0"
   },
   "devDependencies": {

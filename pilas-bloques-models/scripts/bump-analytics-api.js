@@ -3,6 +3,7 @@ const fs = require('fs')
 const version = require("../package.json").version
 
 function bumpModels(projectName){
+    console.log(`Bumping models - ${projectName}`)
     const path = `../pilas-bloques-${projectName}/package.json`
     const project = require(`../${path}`)
     project.dependencies['pilas-bloques-models'] = `^${version}`
