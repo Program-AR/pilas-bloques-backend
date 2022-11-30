@@ -1,6 +1,7 @@
 import describeApi from './describeApi'
 import { matchBody, challengeJson, solutionJson, executionResultJson } from './utils'
-import { CompleteSolutionModel, ChallengeModel } from 'pilas-bloques-models'
+import { ChallengeModel } from '../../pilas-bloques-models/src/challenge'
+import { CompleteSolutionModel } from '../../pilas-bloques-models/src/solution'
 
 describeApi('Challenges', (request) => {
 

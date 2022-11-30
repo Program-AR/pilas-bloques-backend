@@ -10,8 +10,6 @@
     "test:noTimeout": "DOTENV_CONFIG_PATH=.env.test jest --setupFiles dotenv/config --colors --testPathIgnorePatterns dist --runInBand",
     "test": "npm run test:noTimeout -- --testTimeout 5000",
     "debugTest": "npm run test:noTimeout -- --watch",
-    "release:patch": "release patch",
-    "release:minor": "release minor",
     "prepackage": "npm run build && cp -R node_modules dist/",
     "package": "tar -czvf pilasbloques-api.tar.gz dist/*",
     "updateModels": "cd ../pilas-bloques-models/ && rm -f *.tgz && npm run prepublish && npm pack && cd ../pilas-bloques-api/ && rm -Rf node_modules/pilas-bloques-models && npm install ../pilas-bloques-models/pilas-bloques-models-*.tgz"

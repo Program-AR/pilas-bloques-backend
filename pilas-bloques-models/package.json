@@ -7,16 +7,7 @@
     "/dist/*"
   ],
   "scripts": {
-    "prepublish": "rm -Rf dist && tsc",
-    "release:patch": "npm version patch",
-    "release:minor": "npm version minor",
-    "release:major": "npm version major",
-    "prepublishOnly": "npm run prepublish && npm run release:$npm_config_type && git push origin",
-    "postpublish": "node scripts/bump-analytics-api.js && cd .. && git add pilas-bloques-analytics/package.json && git add pilas-bloques-api/package.json && git commit -m \"Bumping models\" && git push origin"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/Program-AR/pilas-bloques-models.git"
+    "prepublish": "rm -Rf dist && tsc"
   },
   "license": "ISC",
   "dependencies": {

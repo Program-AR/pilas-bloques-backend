@@ -8,11 +8,8 @@
     "lint": "eslint .",
     "start": "node dist/src/index.js",
     "test": "jest --colors --testPathIgnorePatterns dist --testTimeout 5000 --runInBand",
-    "release:patch": "release patch",
-    "release:minor": "release minor",
     "prepackage": "rm -Rf dist && npm run build && cp -R node_modules dist/",
-    "package": "tar -czf pilasbloques-analytics.tar.gz dist/*",
-    "updateModels": "cd ../pilas-bloques-models/ && rm -f *.tgz && npm run prepublish && npm pack && cd ../pilas-bloques-analytics/ && rm -Rf node_modules/pilas-bloques-models && npm install ../pilas-bloques-models/pilas-bloques-models-*.tgz"
+    "package": "tar -czf pilasbloques-analytics.tar.gz dist/*"
   },
   "author": "Fundación Sadosky",
   "license": "ISC",
@@ -21,7 +18,6 @@
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "mongoose": "^5.10.1",
-    "pilas-bloques-models": "^1.2.26",
     "ts-node": "^9.0.0"
   },
   "devDependencies": {

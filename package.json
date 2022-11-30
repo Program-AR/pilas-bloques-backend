@@ -1,0 +1,17 @@
+{
+  "name": "pilas-bloques-backend",
+  "version": "1.0.0",
+  "description": "Pilas bloques backend",
+  "scripts": {
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Program-AR/pilas-bloques-backend.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Program-AR/pilas-bloques-backend/issues"
+  },
+  "homepage": "https://github.com/Program-AR/pilas-bloques-backend#readme"
+}

@@ -1,5 +1,5 @@
-import { ChallengeModel } from 'pilas-bloques-models'
-import { CompleteSolutionModel } from 'pilas-bloques-models'
+import { ChallengeModel } from '../../../pilas-bloques-models/src/challenge'
+import { CompleteSolutionModel } from '../../../pilas-bloques-models/src/solution'
 import * as express from 'express'
 import { syncHandler, ResourceRequest } from './utils'
 import { EntityNotFound } from './errorHandlers'

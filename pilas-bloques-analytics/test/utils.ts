@@ -2,7 +2,10 @@ import * as express from 'express'
 import * as Request from 'supertest'
 import * as mongoose from 'mongoose'
 import router from '../src/routes'
-import { Challenge, CompleteSolution, Context, User } from 'pilas-bloques-models'
+import { Challenge } from '../../pilas-bloques-models/src/challenge'
+import { CompleteSolution } from '../../pilas-bloques-models/src/solution'
+import { Context } from '../../pilas-bloques-models/src/context'
+import { User } from '../../pilas-bloques-models/src/user'
 
 export type Request = Request.SuperTest<Request.Test>
 
