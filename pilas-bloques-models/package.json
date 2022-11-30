@@ -2,13 +2,6 @@
   "name": "pilas-bloques-models",
   "version": "1.2.26",
   "description": "Pilas Bloques models for development.",
-  "main": "dist/index.js",
-  "files": [
-    "/dist/*"
-  ],
-  "scripts": {
-    "prepublish": "rm -Rf dist && tsc"
-  },
   "license": "ISC",
   "dependencies": {
     "@typegoose/typegoose": "^7.6.1",
@@ -23,6 +16,5 @@
     "eslint": "^7.8.1",
     "release": "^6.3.1",
     "typescript": "^4.0.2"
-  },
-  "types": "dist/index.d.ts"
+  }
 }
