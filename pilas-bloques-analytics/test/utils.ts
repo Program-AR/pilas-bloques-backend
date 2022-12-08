@@ -15,13 +15,12 @@ export const createServer = async () => {
 }
 
 export const connectDB = () =>
-  mongoose.connect('mongodb://0.0.0.0:27017/pilas-bloques-analytics-test', {
+  mongoose.connect('mongodb://localhost/pilas-bloques-analytics-test', {
     useNewUrlParser: true,
     useUnifiedTopology: true,
     useFindAndModify: false,
     useCreateIndex: true
-  }).then(() => console.log("Database connected!"))
-  .catch(err => console.log(err));
+  })
 
 export const dropDB = () => mongoose.connection.dropDatabase()
 export const disconnectDB = () => mongoose.disconnect()
