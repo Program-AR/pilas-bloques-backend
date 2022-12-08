@@ -1,10 +1,15 @@
 {
   "compilerOptions": {
-      "experimentalDecorators": true,
-      "emitDecoratorMetadata": true,
-      "allowJs": true,
-      "target": "es5",
-      "outDir": "dist"
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "allowJs": true,
+    "target": "es5",
+    "outDir": "dist"
   },
-  "exclude": ["test"]
+  "exclude": ["test"],
+  "references": [
+    {
+      "path": "../pilas-bloques-models"
+    }
+  ]
 }

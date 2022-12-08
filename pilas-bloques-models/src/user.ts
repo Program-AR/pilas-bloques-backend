@@ -12,7 +12,9 @@ export class Answer {
 }
 
 @modelOptions({ options: { allowMixed: Severity.ALLOW } })
-export class User extends Base<string> {
+export class User implements Base<string> {
+  _id: string
+  id: string
   @prop({ required: true, index: true, unique: true })
   username: string
   @prop({ required: true })

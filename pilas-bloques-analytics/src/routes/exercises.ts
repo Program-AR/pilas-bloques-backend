@@ -1,8 +1,7 @@
-import { ChallengeModel } from '../../../pilas-bloques-models/src/challenge'
-import { CompleteSolutionModel } from '../../../pilas-bloques-models/src/solution'
 import * as express from 'express'
 import { syncHandler, ResourceRequest } from './utils'
 import { EntityNotFound } from './errorHandlers'
+import { ChallengeModel, CompleteSolutionModel } from 'pilas-bloques-models'
 
 type ChallengeRequest = ResourceRequest<'solution'>
 

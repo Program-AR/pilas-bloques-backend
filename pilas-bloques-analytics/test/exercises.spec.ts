@@ -1,7 +1,7 @@
 import describeApi from './describeApi'
 import { matchBody, challengeJson, solutionJson, executionResultJson } from './utils'
-import { ChallengeModel } from '../../pilas-bloques-models/src/challenge'
-import { CompleteSolutionModel } from '../../pilas-bloques-models/src/solution'
+import { ChallengeModel } from 'pilas-bloques-models'
+import { CompleteSolutionModel } from 'pilas-bloques-models'
 
 describeApi('Challenges', (request) => {
 
@@ -40,7 +40,7 @@ describeApi('Challenges', (request) => {
       .send(solutionJson)
       .expect(200)
     const challenge = await ChallengeModel.findOne({ challengeId: challengeJson.challengeId })
-    expect(challenge.firstSolution).toEqual(solution._id)
+    expect(challenge?.firstSolution).toEqual(solution._id)
   })
 
   test('Update solution with execution results', async () => {

@@ -5,7 +5,9 @@
     "allowJs": true,
     "target": "es5",
     "outDir": "dist",
-    "declaration": true
+    "declaration": true,
+    "composite": true,
+    "rootDir": "."
   },
   "exclude": [
     "test"
