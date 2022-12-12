@@ -59,15 +59,10 @@ const required = (data: any, label: string, fields: string[]) => {
 }
 
 export const mirrorTo = (url: string): RequestHandler => (req, _res, next) => {
-  //const requestHeaders: HeadersInit = new Headers()
-  //Object.entries(req.headers).forEach(([k, v]) => requestHeaders.set(k, v.join))
-  const a = Object.entries(req.headers)
-  console.log("TIPO DE AAAAAAAAAAAAAAAAA")
-  console.log(a)
   const data = {
     method: req.method,
     body: JSON.stringify(req.body),
-    headers: Object.entries(req.headers) as HeadersInit
+    headers: Object.entries(req.headers) as string[][]
   }
   fetch(url + req.path, data).catch(err => {
     console.log("MIRRORING FAILED", err)

@@ -8,7 +8,7 @@ import { connectDB } from '../../src/api/persistence/db'
 import { configMailing } from '../../src/api/routes/utils'
 import { createTransport } from '../../src/api/mailing'
 
-const analytics = process.env.PB_ANALYTICS_URI
+const analytics = process.env.API_PB_ANALYTICS_URI
 const transportMock = sinon.stub(createTransport())
 
 // SERVER

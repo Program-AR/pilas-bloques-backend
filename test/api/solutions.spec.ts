@@ -1,7 +1,7 @@
 import describeApi from './describeApi'
 import { fetchCalled, fetchBodyMatch, hasBodyProperty, matchBody } from './utils'
 
-const analytics = process.env.PB_ANALYTICS_URI as string
+const analytics = process.env.API_PB_ANALYTICS_URI as string
 
 describeApi('Solutions', (request, { authenticated }) => {
 
