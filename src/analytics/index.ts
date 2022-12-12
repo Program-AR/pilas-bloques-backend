@@ -7,7 +7,7 @@ const { log } = console
 dotenv.config()
 
 // DB
-const dbUri = process.env.DB_CONNECTION_URI
+const dbUri = process.env.ANALYTICS_DB_CONNECTION_URI
 mongoose.connect(dbUri, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
@@ -16,7 +16,7 @@ mongoose.connect(dbUri, {
 })
 
 // SERVER
-const port = process.env.PORT
+const port = process.env.ANALYTICS_PORT
 const app = express()
 app.use(routes)
 app.listen(port, () => {
