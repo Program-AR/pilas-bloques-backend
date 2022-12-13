@@ -62,7 +62,7 @@ export const mirrorTo = (url: string): RequestHandler => (req, _res, next) => {
   const data = {
     method: req.method,
     body: JSON.stringify(req.body),
-    headers: Object.entries(req.headers) as string[][]
+    headers: Object.entries(req.headers) as [string, string][]
   }
   fetch(url + req.path, data).catch(err => {
     console.log("MIRRORING FAILED", err)
