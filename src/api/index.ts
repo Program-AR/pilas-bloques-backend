@@ -3,7 +3,10 @@ import * as express from 'express'
 
 // ENV VAR
 import * as dotenv from 'dotenv'
-dotenv.config() // Do first!
+import * as dotenvExpand from 'dotenv-expand'
+const myEnv = dotenv.config()
+dotenvExpand.expand(myEnv)
+console.log(myEnv)
 
 // GLOBALS
 import fetch from 'node-fetch'

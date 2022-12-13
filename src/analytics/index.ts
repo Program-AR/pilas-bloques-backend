@@ -1,10 +1,13 @@
 import * as dotenv from 'dotenv'
+import * as dotenvExpand from 'dotenv-expand'
 import * as express from 'express'
 import * as mongoose from 'mongoose'
 import routes from './routes'
 const { log } = console
 
-dotenv.config()
+const myEnv = dotenv.config()
+dotenvExpand.expand(myEnv)
+console.log(myEnv)
 
 // DB
 const dbUri = process.env.ANALYTICS_DB_CONNECTION_URI
