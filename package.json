@@ -7,7 +7,7 @@
     "build": "rm -rf dist && tsc",
     "test": "npm run test:analytics && npm run test:api",
     "test:api": "npm run test:api:noTimeout -- --testTimeout 5000",
-    "test:api:noTimeout": "DOTENV_CONFIG_PATH=/test/api/.env.test jest /test/api --setupFiles dotenv/config --colors --testPathIgnorePatterns dist --runInBand",
+    "test:api:noTimeout": "DOTENV_CONFIG_PATH=./test/api/.env.test jest /test/api --setupFiles dotenv/config --colors --testPathIgnorePatterns dist --runInBand",
     "test:analytics": "jest /test/analytics --colors --testPathIgnorePatterns dist --testTimeout 5000 --runInBand",
     "start:analytics": "node dist/analytics/index.js",
     "dev": "bash ./scripts/runBackend.sh",
