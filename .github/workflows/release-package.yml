@@ -1,21 +1,22 @@
-name: run-tests
+name: release-package
 on: 
-  push: # runs on every push to this repo
-  pull_request: # and for outside collaborations
   release:
    types:
     - released
+  workflow_run:
+    workflows: ["run-tests"]
+    types:
+      - completed
+
 jobs:
-  test: # condition below avoids double runs for local pull requests:
-    if: ${{ github.event_name == 'push' || !startsWith(github.event.pull_request.head.repo.full_name, github.repository_owner) }}
+  package-release:
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v3
         with:
           node-version-file: '.nvmrc'
-      - uses: supercharge/mongodb-github-action@1.6.0
-
       #https://docs.github.com/es/actions/guides/caching-dependencies-to-speed-up-workflows#using-the-cache-action
       - name: Cache node modules
         uses: actions/cache@v2
@@ -30,6 +31,10 @@ jobs:
             ${{ runner.os }}-build-
             ${{ runner.os }}-
       - run: npm install
-
-      - name: Run tests
-        run: npm run test
+      - run: npm run package
+      - name: Release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: |
+            pilasbloques-api.tar.gz
+            pilasbloques-analytics.tar.gz
