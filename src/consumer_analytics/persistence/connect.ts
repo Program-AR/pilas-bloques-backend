@@ -1,7 +1,6 @@
 import * as mongoose from 'mongoose'
 
 export const connectDB = () =>{
-  console.log(process.env.CONSUMER_DB_CONNECTION_URI)
   mongoose.connect(process.env.CONSUMER_DB_CONNECTION_URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true,

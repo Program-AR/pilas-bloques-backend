@@ -14,9 +14,11 @@
     "test:consumer_analytics:unit": "DOTENV_CONFIG_PATH=./test/consumer_analytics/.env.test jest --setupFiles dotenv/config --colors --testPathIgnorePatterns dist --testTimeout 5000 --runInBand",
     "seed:consumer_analytics": "seed --drop-database --replace-id --set-timestamps --db-name pilas-bloques-consumer-test ./test/consumer_analytics/persistence",
     "start:analytics": "node dist/analytics/index.js",
+    "start:consumer_analytics": "ts-node src/consumer_analytics/index.ts",
     "dev": "bash ./scripts/runBackend.sh",
     "dev:analytics": "nodemon --watch 'src/analytics/**/*.ts' --ignore 'src/analytics/**/*.spec.ts' --exec 'ts-node' src/analytics/index.ts",
     "dev:api": "nodemon --watch 'src/api/**/*.ts' --ignore 'src/api/**/*.spec.ts' --exec 'ts-node' src/api/index.ts",
+    "dev:consumer_analytics": "nodemon --watch 'src/consumer_analytics/**/*.ts' --ignore 'src/consumer_analytics/**/*.spec.ts' --exec 'ts-node' src/consumer_analytics/index.ts",
     "lint": "eslint .",
     "prepackage": "rm -Rf dist && npm run build && cp -R node_modules dist/",
     "package": "tar -czf pilasbloques-backend.tar.gz dist/*"
