@@ -1,11 +1,10 @@
 {
   "name": "pilas-bloques-backend",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Pilas bloques backend",
   "main": "index.js",
   "scripts": {
     "build": "rm -rf dist && tsc",
-
     "test": "npm run test:analytics && npm run test:api",
     "test:api": "npm run test:api:noTimeout -- --testTimeout 5000",
     "test:api:noTimeout": "DOTENV_CONFIG_PATH=./test/api/.env.test jest /test/api --setupFiles dotenv/config --colors --testPathIgnorePatterns dist --runInBand",
@@ -13,25 +12,19 @@
     "test:consumer_analytics": "npm run seed:consumer_analytics && npm run test:consumer_analytics:unit -- --watch",
     "test:consumer_analytics:CI": "npm run seed:consumer_analytics && npm run test:consumer_analytics:unit",
     "test:consumer_analytics:unit": "DOTENV_CONFIG_PATH=./test/consumer_analytics/.env.test jest --setupFiles dotenv/config --colors --testPathIgnorePatterns dist --testTimeout 5000 --runInBand",
-   
     "seed:consumer_analytics": "seed --drop-database --replace-id --set-timestamps --db-name pilas-bloques-consumer-test ./test/consumer_analytics/persistence",
-   
     "start:analytics": "node dist/analytics/index.js",
     "start:api": "node dist/api/index.js",
     "start:consumer_analytics": "ts-node src/consumer_analytics/index.ts",
-   
     "dev": "bash ./scripts/runBackend.sh",
     "dev:analytics": "nodemon --watch 'src/analytics/**/*.ts' --ignore 'src/analytics/**/*.spec.ts' --exec 'ts-node' src/analytics/index.ts",
     "dev:api": "nodemon --watch 'src/api/**/*.ts' --ignore 'src/api/**/*.spec.ts' --exec 'ts-node' src/api/index.ts",
     "dev:consumer_analytics": "nodemon --watch 'src/consumer_analytics/**/*.ts' --ignore 'src/consumer_analytics/**/*.spec.ts' --exec 'ts-node' src/consumer_analytics/index.ts",
-   
     "lint": "eslint .",
-   
     "prepackage": "rm -Rf dist && npm run build && cp -R node_modules dist/",
     "package": "npm run package:api && npm run package:analytics",
     "package:api": "tar -czf pilasbloques-api.tar.gz dist/node_modules dist/api dist/models",
     "package:analytics": "tar -czf pilasbloques-analytics.tar.gz dist/node_modules dist/analytics dist/models",
-
     "release:patch": "release patch",
     "release:minor": "release minor"
   },
