@@ -1,4 +1,4 @@
-import sessionBehaviour, { Session } from '../../src/analytics-consumer/models/session'
+import sessionBehaviour, { Session } from '../../src/consumer_analytics/models/session'
 import { newContext, newSolution, unknownSolution as solution } from './utils'
 import { CompleteSolution } from '../../src/models/solution'
 

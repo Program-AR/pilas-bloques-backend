@@ -1,5 +1,5 @@
 import { StaticAnalysis } from '../../src/models/staticAnalysis'
-import trialBehaviour, { Trial } from '../../src/analytics-consumer/models/trial'
+import trialBehaviour, { Trial } from '../../src/consumer_analytics/models/trial'
 import { newTrial, successSolution, failSolution, unknownSolution, newSolution, after, expectIntervalTimestamp } from './utils'
 import { staticAnalysis1 } from './experience.spec'
 

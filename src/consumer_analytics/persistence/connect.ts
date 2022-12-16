@@ -1,6 +1,8 @@
 import * as mongoose from 'mongoose'
 
-export const connectDB = () => mongoose.connect(process.env.DB_CONNECTION_URI, {
+export const connectDB = () =>{
+  console.log(process.env.CONSUMER_DB_CONNECTION_URI)
+  mongoose.connect(process.env.CONSUMER_DB_CONNECTION_URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
   useFindAndModify: false,
@@ -8,4 +10,4 @@ export const connectDB = () => mongoose.connect(process.env.DB_CONNECTION_URI, {
   autoIndex: true,
   connectTimeoutMS: 1000 * 60 * 10,
   socketTimeoutMS: 1000 * 60 * 10,
-})
+})}

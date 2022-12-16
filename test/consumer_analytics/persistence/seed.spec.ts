@@ -1,5 +1,5 @@
 import describeDB from './describeDB'
-import analizer from '../../../src/analytics-consumer/persistence/analyzer'
+import analizer from '../../../src/consumer_analytics/persistence/analyzer'
 
 describeDB('Seed', () => {
   test('Running on full db', async () => {
