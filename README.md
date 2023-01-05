@@ -8,11 +8,11 @@ This project contains the following sub-projects:
 
 - **Pilas Bloques API**: REST-API for Pilas Bloques app.
 - **Pilas Bloques Analytics**: REST-API for logging Pilas Bloques usage for scientific purposes.
-- **Pilas Bloques Analytics Consumer**: Pilas Bloques data users consumer for scientific purposes.
+- **Pilas Bloques Consumer**: Pilas Bloques data users consumer for scientific purposes. Consumes data from Pilas Bloques Analytics' database.
 
 ## Requisites
 - [Nodejs](https://nodejs.org/es/) (v12 >=)
-- [MonngoDB](https://www.mongodb.com/). This can be done by running a docker image:
+- [MongoDB](https://www.mongodb.com/). This can be done by running a docker image:
 
 Docker run example:
 ```
@@ -33,14 +33,14 @@ For development
 
 For production
 - Run `npm run build` for make `dist` directory. (TODO)
-- Run `npm start:[sub-project]` for server starts. The options are `api`, `anaytics` and `consumer_analytics`
+- Run `npm start:[sub-project]` for server starts. The options are `api`, `anaytics` and `consumer`
 
 ## Running tests
 
 All tests
 - Run `npm test`
 
-If you want to test a specific sub-project, run `npm test:[sub-project]`, with the options: `api`, `analytics` and `consumer_analytics`.
+If you want to test a specific sub-project, run `npm test:[sub-project]`, with the options: `api`, `analytics` and `consumer`.
 
 Only one file
 - Run `npm test -- -f <FILE_PATH>`

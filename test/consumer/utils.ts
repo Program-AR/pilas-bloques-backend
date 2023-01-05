@@ -1,9 +1,9 @@
 import * as mongoose from 'mongoose'
-import { connectDB } from '../../src/consumer_analytics/persistence/connect'
+import { connectDB } from '../../src/consumer/persistence/connect'
 import { CompleteSolution as Solution } from '../../src/models/solution'
-import { initialize, IntervalTimestamp } from '../../src/consumer_analytics/models/utils'
-import trialBehaviour, { Trial } from '../../src/consumer_analytics/models/trial'
-import experienceBehaviour, { Experience } from '../../src/consumer_analytics/models/experience'
+import { initialize, IntervalTimestamp } from '../../src/consumer/models/utils'
+import trialBehaviour, { Trial } from '../../src/consumer/models/trial'
+import experienceBehaviour, { Experience } from '../../src/consumer/models/experience'
 import { StaticAnalysis } from '../../src/models/staticAnalysis'
 
 // SERVER

@@ -1,8 +1,8 @@
 import describeDB from './describeDB'
 import { solutions } from './1_solutions/solutions'
-import analyzer, { reduce, ExperienceByChallenge, finalize } from '../../../src/consumer_analytics/persistence/analyzer'
+import analyzer, { reduce, ExperienceByChallenge, finalize } from '../../../src/consumer/persistence/analyzer'
 import { CompleteSolution as Solution } from '../../../src/models/solution'
-import { Experience } from '../../../src/consumer_analytics/models/experience'
+import { Experience } from '../../../src/consumer/models/experience'
 import { expectJSON, newExperience, deleteCollection } from '../utils'
 
 describeDB('Analyzer', () => {
