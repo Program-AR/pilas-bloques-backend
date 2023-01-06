@@ -25,15 +25,25 @@ docker run -d --rm -p 27017:27017 -v $HOME/mongoData:/data/db --name mongoPilasB
 - Make sure you are using the correct node version running `nvm use`
 - Run `npm install`
 
-## Running app
+## Running API and Analytics
 > Remember to start the DB before!
 
 For development
 - Run `npm run dev` for server starts. Any file change should re-run it. This command only starts API and Analytics servers. It's important to NOT close those tabs (API and Analytics) before ending the processes (using `CTRL + C`); otherwise you will need to kill it manually (using [`fuser`](https://linux.die.net/man/1/fuser) command).
 
 For production
-- Run `npm run build` for make `dist` directory. (TODO)
-- Run `npm start:[sub-project]` for server starts. The options are `api`, `anaytics` and `consumer`
+- Run `npm run build` for make `dist` directory.
+- Run `npm start:[sub-project]` for server starts. The options are `api`, and `anaytics`. For consumer see below.
+
+## Running Consumer
+> Remember to start the DB before!
+
+### Consumer cheat sheet
+- `npm run start -- --help` shows help.
+- `npm run start:consumer -- analyze` analyzes using default options (decomposition challenges and outcollection "experiences").
+### Mongo cheat sheet
+- Dumping `docker exec -it CONTAINER_ID sh -c "mongodump --gzip --out=/data/db/dumpFOLDER --db=pilas-bloques-analytics --collection=solutions"`
+- Restoring `docker exec -it CONTAINER_ID mongorestore --gzip /data/db/dumpFOLDER`
 
 ## Running tests
 

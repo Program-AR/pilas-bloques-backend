@@ -12,7 +12,7 @@ global.fetch = fetch as any
 
 // MAIN
 import yargs from "yargs"
-import { challengesIds } from './commands/utils'
+import { allChallengeIds, decompositionChallengesIds } from './commands/utils'
 
 yargs(process.argv.slice(2))
   .command(require('./commands/analyze'))
@@ -22,8 +22,8 @@ yargs(process.argv.slice(2))
       string: true,
       array: true,
       describe: 'Challenges ids to build experiences',
-      choices: challengesIds,
-      default: challengesIds,
+      choices: allChallengeIds,
+      default: decompositionChallengesIds,
     },
     'collection': {
       string: true,

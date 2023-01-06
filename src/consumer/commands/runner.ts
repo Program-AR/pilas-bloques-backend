@@ -1,5 +1,5 @@
 import { connectDB } from '../persistence/connect'
-import { challengesIds } from './utils'
+import { decompositionChallengesIds } from './utils';
 import { ExperiencesOptions } from '../persistence/analyzer'
 const { log, time, timeEnd } = console
 
@@ -11,7 +11,7 @@ export const runner = (fn: (opt: ExperiencesOptions) => Promise<void>) => async 
   function selectChallenges() {
     if (!challenges.length) {
       log(`No challenges selected -> using all challenges`)
-      return challengesIds
+      return decompositionChallengesIds
     }
     else {
       log(`Using challenges: ${challenges}`)
