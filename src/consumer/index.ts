@@ -17,6 +17,7 @@ import { allChallengeIds, decompositionChallengesIds } from './commands/utils'
 yargs(process.argv.slice(2))
   .command(require('./commands/analyze'))
   .command(require('./commands/results'))
+  .command(require('./commands/histories'))
   .options({
     'challenges': {
       string: true,
@@ -44,6 +45,11 @@ yargs(process.argv.slice(2))
       boolean: true,
       describe: 'Use only info from logged users',
       default: false,
+    },
+    'historiesCollection': {
+      string: true,
+      describe: 'Collection where histories will be saved',
+      default: 'histories',
     },
   })
   .demandCommand()

@@ -1,6 +1,7 @@
 import { mongoose } from '@typegoose/typegoose'
 import { CompleteSolution as Solution, CompleteSolutionModel } from '../../models/solution'
 import e, { Experience } from '../models/experience'
+import { MapReduceResult } from '../models/utils'
 
 const SolutionModel = mongoose.connection.model('SolutionModel', CompleteSolutionModel.schema, "solutions")
 
@@ -36,12 +37,6 @@ export interface ExperiencesOptions {
   challengeId?: string
   ignoreUsers?: (string | number)[]
   onlyLoggedIn?: boolean
-}
-
-// This was removed from mongoose
-interface MapReduceResult<Key, Val> {
-  _id: Key;
-  value: Val;
 }
 
 export type ExperienceByChallenge = MapReduceResult<Key, Value>

@@ -3,7 +3,7 @@ import { prop, Severity, modelOptions } from '@typegoose/typegoose'
 type ExpectResult = Record<string, string | boolean >
 
 @modelOptions({ options: { allowMixed: Severity.ALLOW } })
-class Score {
+export class Score {
     @prop()
     expectResults: Record<string, boolean>
     @prop()

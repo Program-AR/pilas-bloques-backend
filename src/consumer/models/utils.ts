@@ -1,8 +1,18 @@
+import { modelOptions, prop, Severity } from '@typegoose/typegoose'
 import { CompleteSolution as Solution } from '../../models/solution'
 
-export interface ThinSolution {
+@modelOptions({ options: { allowMixed: Severity.ALLOW } })
+export class ThinSolution {
+  @prop({_id: false})
   timestamp: Date
+  @prop({_id: false})
   executionResult: any
+}
+
+// This was removed from mongoose
+export interface MapReduceResult<Key, Val> {
+  _id: Key;
+  value: Val;
 }
 
 // INSTANCES

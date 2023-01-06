@@ -1,15 +1,24 @@
+import { modelOptions, prop, Severity } from '@typegoose/typegoose'
 import { CompleteSolution as Solution } from '../../models/solution'
 import { StaticAnalysis } from '../../models/staticAnalysis'
 import u, { IntervalTimestamp, ThinSolution } from './utils'
 const utils = u
 
-export interface Trial {
+@modelOptions({ options: { allowMixed: Severity.ALLOW } })
+export class Trial {
+  @prop( {_id: false, type: ThinSolution} )
   solutions: ThinSolution[]
+  @prop( {_id: false} )
   ast: any[]
+  @prop()
   program: string
+  @prop()
   executionCount: number
+  @prop()
   result: "GOOD" | "FLAKY" | "BAD"
+  @prop({_id: false})
   timestamp: IntervalTimestamp
+  @prop({_id: false})
   staticAnalysis: StaticAnalysis
 }
 
