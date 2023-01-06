@@ -1,5 +1,5 @@
 import describeDB from './describeDB'
-import solutions = require('./1_solutions/solutions')
+import solutions = require('./1_solutions/solutions') // mongo-seeding-cli needs it this way
 import analyzer, { reduce, ExperienceByChallenge, finalize } from '../../../src/consumer/persistence/analyzer'
 import { CompleteSolution as Solution } from '../../../src/models/solution'
 import { Experience } from '../../../src/consumer/models/experience'

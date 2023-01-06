@@ -71,4 +71,4 @@ const data: Partial<Solution>[] = [
   },
 ]
 
-export = data.map(newSolution)
+export = data.map(newSolution)  // mongo-seeding-cli needs it this way
