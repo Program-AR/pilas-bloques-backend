@@ -33,7 +33,7 @@ jobs:
       - name: Run tests
         run: npm run test
 
-  build:
+  package-on-tag:
     if: startsWith(github.ref, 'refs/tags/')
     needs: test
     runs-on: ubuntu-latest
