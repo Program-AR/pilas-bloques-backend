@@ -71,4 +71,4 @@ const data: Partial<Solution>[] = [
   },
 ]
 
-export const solutions = data.map(newSolution)
+export = data.map(newSolution)
