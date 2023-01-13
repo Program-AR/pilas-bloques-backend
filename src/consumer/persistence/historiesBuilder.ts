@@ -1,7 +1,6 @@
 import { mongoose } from '@typegoose/typegoose'
 import { ExperienceModel } from '../models/experience'
 import { UserHistory } from '../models/userHistory'
-import { ExperiencesOptions } from './analyzer'
 
 const baseUserHistoryAggregation: any[] = [
     {
@@ -60,10 +59,16 @@ const baseUserHistoryAggregation: any[] = [
     }
   ]
 
+const pipeline = ({ limit, historiesCollection }) => {
+  const pipe = baseUserHistoryAggregation
+  if(limit) pipe.push({ '$limit': limit })
+  if(historiesCollection) pipe.push({ '$out': historiesCollection  })
+  return pipe
+}
+
 const histories: (opt: { collection: string, historiesCollection: string, limit: number }) => Promise<UserHistory[]> = async (opt) => {
     const ExperienceMongooseModel = mongoose.connection.model('ExperienceModel', ExperienceModel.schema, opt.collection)
-    console.log("TODO: Save histories in collection. For now will show them (please use limit)")
-    const hs = await ExperienceMongooseModel.aggregate<UserHistory>(baseUserHistoryAggregation.concat([{'$limit': opt.limit}]))
+    const hs = await ExperienceMongooseModel.aggregate<UserHistory>(pipeline(opt))
         .allowDiskUse(true) // Otherwise blows up for size of $group step
         .exec()
     console.log(hs)
