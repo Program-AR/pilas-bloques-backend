@@ -40,7 +40,8 @@ For production
 
 ### Consumer cheat sheet
 - `npm run start -- --help` shows help.
-- `npm run start:consumer -- analyze` analyzes using default options (decomposition challenges and outcollection "experiences").
+- `npm run start:consumer -- analyze` takes solutions and produces experiences using default options (decomposition challenges and outcollection "experiences").
+- `npm run start:consumer -- histories --limit=10` takes experiences and produces histories.
 ### Mongo cheat sheet
 - Dumping `docker exec -it CONTAINER_ID sh -c "mongodump --gzip --out=/data/db/dumpFOLDER --db=pilas-bloques-analytics --collection=solutions"`
 - Restoring `docker exec -it CONTAINER_ID mongorestore --gzip /data/db/dumpFOLDER`

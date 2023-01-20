@@ -1,3 +1,4 @@
+import { prop, getModelForClass, Severity, modelOptions } from '@typegoose/typegoose'
 import { CompleteSolution as Solution } from '../../models/solution'
 import t, { Trial } from "./trial"
 import u, { IntervalTimestamp } from './utils'
@@ -12,23 +13,39 @@ interface Success {
   executionCount: number
   trialsCount: number
 }
-export interface Experience {
-  trials: Trial[]
-  userId: string,
-  challengeId: string,
-  executionCount: number
-  trialsCount: number
-  firstSuccess: Success
-  lastSuccess: Success
-  lastTrial: Trial
-  session: Session
-  timestamp: IntervalTimestamp
+
+@modelOptions({ options: { allowMixed: Severity.ALLOW } })
+export class Experience {
+    @prop({ _id: false, type: Trial })
+    trials: Trial[]
+    @prop({ required: true, index: true })
+    userId: string
+    @prop({ required: true, index: true })
+    challengeId: string
+    @prop()
+    executionCount: number
+    @prop()
+    trialsCount: number
+    @prop({ _id: false })
+    firstSuccess: Success
+    @prop({ _id: false })
+    lastSuccess: Success
+    @prop({ _id: false})
+    lastTrial: Trial
+    @prop({ _id: false})
+    session: Session
+    @prop({ _id: false})
+    timestamp: IntervalTimestamp
 }
 
+export const ExperienceModel = getModelForClass<typeof Experience>(Experience)
+
 function buildExperience(this: ExperienceBehaviour, solution: Solution): Experience {
+  delete solution.ast // if not it blows up on exercise 12 with "MongoError: MapReduce internal error :: caused by :: Value too large to reduce"
   const trial = this.trialBehaviour.buildTrial([solution])
   const firstSuccessSolution = this.trialBehaviour.isSolved(solution) && solution
   const lastSuccessSolution = this.trialBehaviour.isSolved(solution) && solution
+
   return {
     trials: [trial],
     userId: solution.context.userId as any,
