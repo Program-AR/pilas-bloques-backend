@@ -31,9 +31,13 @@ const baseUserHistoryAggregation: any[] = [
           '$push': {
             'challengeId': '$value.challengeId', 
             'solutionId': '$value.lastSuccess.solution._id', 
+            'serverTimestamp': { '$toDate': '$value.lastSuccess.solution._id' },
             'program': '$value.lastSuccess.solution.program', 
             'score': '$value.lastSuccess.solution.staticAnalysis.score', 
-            'experimentGroup': '$value.lastSuccess.solution.context.experimentGroup'
+            'phase': { '$cond' : [{ '$eq': ['$value.lastSuccess.solution.context.experimentGroup', 'treatment'] }, 'intervention', 'test'] },
+            'ip': '$value.lastSuccess.solution.context.ip',
+            'solvedChallenges': '$value.lastSuccess.solution.context.solvedChallenges',
+            'context': '$value.lastSuccess.solution.context'
           }
         }, 
         'group': {
