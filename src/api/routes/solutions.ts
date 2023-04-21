@@ -1,9 +1,12 @@
 import * as express from 'express'
 import { syncHandler, AuthenticatedRequest } from './utils'
-import { tokenAuth, mirrorTo, tryy, onlyIfAuth, end } from './middlewares'
+import { tokenAuth, mirrorTo, tryy, onlyIfAuth, end, userFingerprint } from './middlewares'
 import { BaseSolutionModel } from '../../models/solution'
+import * as cookieParser from 'cookie-parser'
 
 const router = express.Router()
+
+router.use(cookieParser())
 
 const mirror = mirrorTo(process.env.API_PB_ANALYTICS_URI)
 
@@ -16,7 +19,7 @@ router.get('/challenges/:challengeId/solution', tokenAuth, syncHandler(async (re
   res.json(solution)
 }))
 
-router.post('/solutions', mirror, tryy(tokenAuth), onlyIfAuth, syncHandler(async (req: AuthenticatedRequest, res) => {
+router.post('/solutions', userFingerprint, mirror, tryy(tokenAuth), onlyIfAuth, syncHandler(async (req: AuthenticatedRequest, res) => {
   const { user, body } = req
   const { challengeId } = body
   body.user = user
@@ -30,5 +33,9 @@ router.put('/solutions/:solutionId', mirror, tryy(tokenAuth), onlyIfAuth, syncHa
   await solution.set(req.body).save()
   res.json(solution)
 }))
+
+router.get('/getCookie', function(req, res) {  
+  res.status(200).send(req.cookies);  
+}); 
 
 export default router

@@ -3,6 +3,7 @@ import { DocumentType } from '@typegoose/typegoose'
 import { parseToken } from '../models/auth'
 import { NotFound, ParametersNotFound, Unauthorized, WrongCredentials } from './errorHandlers'
 import { User, UserModel } from '../../models/user'
+import * as uuid from 'uuid'
 
 
 export const tokenAuth = syncHandler(async (req: AuthenticatedRequest, _res, next) => {
@@ -84,4 +85,23 @@ export const onlyIfAuth: RequestHandler = (req: AuthenticatedRequest, res, next)
 
 export const end: RequestHandler = (req: AuthenticatedRequest, res) => {
   res.end()
+}
+
+export const userFingerprint: RequestHandler = (req, res, next) => {
+
+  let fingerprint = req.cookies ? req.cookies.fingerprint : null
+
+  const maxAge = 1000 * 60 * 60 * 24 * parseInt(process.env.COOKIES_MAX_AGE_DAYS)
+
+  if(!fingerprint){
+    fingerprint = uuid.v4()
+    res.cookie('fingerprint', fingerprint, {
+      secure: false,
+      maxAge: maxAge,
+    });
+  }
+
+  req.body.context.browserId = fingerprint
+
+  next()
 }

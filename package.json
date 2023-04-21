@@ -8,7 +8,7 @@
     "test": "npm run test:analytics && npm run test:api && npm run test:consumer:CI",
     "test:api": "npm run test:api:noTimeout -- --testTimeout 5000",
     "test:api:noTimeout": "DOTENV_CONFIG_PATH=./test/api/.env.test jest ./test/api --setupFiles dotenv/config --colors --testPathIgnorePatterns dist --runInBand",
-    "test:analytics": "DOTENV_CONFIG_PATH=./test/analytics/.env.test jest ./test/analytics --setupFiles dotenv/config --colors --testPathIgnorePatterns dist --testTimeout 5000 --runInBand",
+    "test:analytics": "jest ./test/analytics --colors --testPathIgnorePatterns dist --testTimeout 5000 --runInBand",
     "test:consumer": "npm run test:consumer:CI -- -- --watch",
     "test:consumer:CI": "npm run seed:consumer && npm run test:consumer:unit",
     "test:consumer:unit": "DOTENV_CONFIG_PATH=./test/consumer/.env.test jest ./test/consumer --setupFiles dotenv/config --colors --testPathIgnorePatterns dist --testTimeout 5000 --runInBand",
