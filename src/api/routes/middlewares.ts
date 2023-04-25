@@ -87,9 +87,9 @@ export const end: RequestHandler = (req: AuthenticatedRequest, res) => {
   res.end()
 }
 
-export const userFingerprint: RequestHandler = (req, res, next) => {
+export const userFingerprint = (req, res, next) => {
 
-  let fingerprint = req.cookies ? req.cookies.fingerprint : null
+  let fingerprint = (req.cookies && req.cookies.fingerprint) ? req.cookies.fingerprint : null
 
   const maxAge = 1000 * 60 * 60 * 24 * parseInt(process.env.COOKIES_MAX_AGE_DAYS)
 
@@ -101,7 +101,7 @@ export const userFingerprint: RequestHandler = (req, res, next) => {
     });
   }
 
-  req.body.context.browserId = fingerprint
+  if(req.body.context) req.body.context.browserId = fingerprint
 
   next()
 }

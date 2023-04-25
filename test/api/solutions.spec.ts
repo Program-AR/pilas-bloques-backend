@@ -1,3 +1,5 @@
+import { NextFunction } from 'express'
+import { userFingerprint } from '../../src/api/routes/middlewares'
 import describeApi from './describeApi'
 import { fetchCalled, fetchBodyMatch, hasBodyProperty, matchBody } from './utils'
 
@@ -92,6 +94,38 @@ describeApi('Solutions', (request, { authenticated }) => {
 
   })
 
+  describe('User fingerprint cookies', () => {
+
+    let req = { body: { context: { browserId: undefined } }  }
+    let res = { cookie: jest.fn() }
+    const next = jest.fn();
+
+    test('Should not set a new cookie if it already exists', () => {
+      userFingerprint( {...req, cookies: { fingerprint: '123' } }, res, next)
+      expect(res.cookie).not.toHaveBeenCalled()
+      console.log(res)
+      expect(next).toHaveBeenCalled()
+    })
+
+    test('Should set a new cookie if there are cookies in the request, but there is no fingerprint', () =>{
+      userFingerprint( {...req, cookies: { someCookie: 1 } }, res, next)
+      expect(res.cookie).toHaveBeenCalled()
+      expect(next).toHaveBeenCalled()
+    })
+
+    test('Should create a new cookie if it does not exist', () =>{
+      userFingerprint(req, res, next)
+      expect(res.cookie).toHaveBeenCalled()
+      expect(next).toHaveBeenCalled()
+    })
+
+    test('Should add browserId to the request', () =>{
+      userFingerprint(req, res, next)
+      expect(req.body.context.browserId).toBeDefined()
+    })
+  })
+  
+    
 })
 
 const solutionId = "00000000"

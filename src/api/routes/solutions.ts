@@ -10,7 +10,7 @@ router.use(cookieParser())
 
 const mirror = mirrorTo(process.env.API_PB_ANALYTICS_URI)
 
-router.post('/challenges', mirror, end)
+router.post('/challenges', userFingerprint, mirror, end)
 
 router.get('/challenges/:challengeId/solution', tokenAuth, syncHandler(async (req: AuthenticatedRequest, res) => {
   const { user } = req
@@ -27,15 +27,11 @@ router.post('/solutions', userFingerprint, mirror, tryy(tokenAuth), onlyIfAuth, 
   res.json(result) // TODO: Retrieve solution?
 }))
 
-router.put('/solutions/:solutionId', mirror, tryy(tokenAuth), onlyIfAuth, syncHandler(async (req: AuthenticatedRequest, res) => {
+router.put('/solutions/:solutionId', userFingerprint, mirror, tryy(tokenAuth), onlyIfAuth, syncHandler(async (req: AuthenticatedRequest, res) => {
   const { solutionId } = req.params as any
   const solution = await BaseSolutionModel.findOne({ solutionId }).exec()
   await solution.set(req.body).save()
   res.json(solution)
 }))
-
-router.get('/getCookie', function(req, res) {  
-  res.status(200).send(req.cookies);  
-}); 
 
 export default router
