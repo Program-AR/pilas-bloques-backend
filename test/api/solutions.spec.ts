@@ -96,16 +96,19 @@ describeApi('Solutions', (request, { authenticated }) => {
 
   describe('User fingerprint cookies', () => {
 
-    let req = { body: { context: { browserId: undefined } }  }
-    let res = { cookie: jest.fn() }
+    let req
+    const res = { cookie: jest.fn() }
     const next = jest.fn();
+
+    beforeEach(()=>{
+      req = { body: { context: { userId: undefined } }  }
+    })
 
     test('Should not set a new cookie if it already exists', () => {
       userFingerprint( {...req, cookies: { fingerprint: '123' } }, res, next)
       expect(res.cookie).not.toHaveBeenCalled()
-      console.log(res)
       expect(next).toHaveBeenCalled()
-    })
+    }) 
 
     test('Should set a new cookie if there are cookies in the request, but there is no fingerprint', () =>{
       userFingerprint( {...req, cookies: { someCookie: 1 } }, res, next)
@@ -119,9 +122,15 @@ describeApi('Solutions', (request, { authenticated }) => {
       expect(next).toHaveBeenCalled()
     })
 
-    test('Should add browserId to the request', () =>{
+    test('Should add userId to the request if it does not exist', () =>{
       userFingerprint(req, res, next)
-      expect(req.body.context.browserId).toBeDefined()
+      expect(req.body.context.userId).toBeDefined()
+    })
+
+    test('Should not add userId to the request if exist (user authenticated)', () =>{
+      let reqWithUserId = {...req, body: { context: { userId: "123" } } }  
+      userFingerprint(reqWithUserId, res, next)
+      expect(reqWithUserId.body.context.userId).toBeDefined()
     })
   })
   

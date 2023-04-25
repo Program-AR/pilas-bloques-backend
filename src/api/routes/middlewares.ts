@@ -89,19 +89,22 @@ export const end: RequestHandler = (req: AuthenticatedRequest, res) => {
 
 export const userFingerprint = (req, res, next) => {
 
-  let fingerprint = (req.cookies && req.cookies.fingerprint) ? req.cookies.fingerprint : null
+  if(req.body.context && !req.body.context.userId){
+    let fingerprint = (req.cookies && req.cookies.fingerprint) ? req.cookies.fingerprint : null
 
-  const maxAge = 1000 * 60 * 60 * 24 * parseInt(process.env.COOKIES_MAX_AGE_DAYS)
-
-  if(!fingerprint){
-    fingerprint = uuid.v4()
-    res.cookie('fingerprint', fingerprint, {
-      secure: false,
-      maxAge: maxAge,
-    });
+    const maxAge = 1000 * 60 * 60 * 24 * parseInt(process.env.COOKIES_MAX_AGE_DAYS)
+  
+    if(!fingerprint){
+      fingerprint = uuid.v4()
+      res.cookie('fingerprint', fingerprint, {
+        samesite:'none',
+        secure: false,
+        maxAge: maxAge,
+      });
+    }
+  
+    req.body.context.userId = fingerprint
   }
-
-  if(req.body.context) req.body.context.browserId = fingerprint
 
   next()
 }
