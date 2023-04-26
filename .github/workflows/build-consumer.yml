@@ -6,6 +6,8 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
+        with:
+          node-version-file: '.nvmrc'
 
       #https://docs.github.com/es/actions/guides/caching-dependencies-to-speed-up-workflows#using-the-cache-action
       - name: Cache node modules
