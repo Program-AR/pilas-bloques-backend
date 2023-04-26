@@ -85,7 +85,6 @@ describe('Trial', () => {
 
     test('overlap at the beginning', () => {
       const trials = createTrialsAndSolveOverlaps([1, 3], [1, 2])
-      console.log(trials)
       expect(trials.length).toBe(2)
     })
 
