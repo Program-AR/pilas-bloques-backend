@@ -31,7 +31,7 @@ const app = express()
 app.set('trust proxy', true) // If true, the client’s IP address is understood as the left-most entry in the X-Forwarded-* header.
 app.use(configMailing(transport))
 
-var whitelist = ['http://localhost:4200']
+var whitelist = [process.env.API_APP_URL]
 var corsOptions = {
   origin: function (origin, callback) {
     if (whitelist.indexOf(origin) !== -1) {
@@ -42,7 +42,6 @@ var corsOptions = {
   },
   optionsSuccessStatus: 200,
   credentials:true,
-  //allowedHeaders: 'Content-Type,Authorization',
   methods: 'GET,HEAD,PUT,PATCH,POST,DELETE'
 }
 
