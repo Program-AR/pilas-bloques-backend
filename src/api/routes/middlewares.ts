@@ -93,13 +93,12 @@ export const userFingerprint = (req, res, next) => {
     let fingerprint = (req.cookies && req.cookies.fingerprint) ? req.cookies.fingerprint : null
 
     const maxAge = 1000 * 60 * 60 * 24 * parseInt(process.env.COOKIES_MAX_AGE_DAYS)
-    const secure = (/true/).test(process.env.COOKIES_SECURE);
   
     if(!fingerprint){
       fingerprint = uuid.v4()
       res.cookie('fingerprint', fingerprint, {
-        samesite:'none',
-        secure: false,
+        secure: true,
+        httpOnly: true,
         maxAge: maxAge,
       });
     }
