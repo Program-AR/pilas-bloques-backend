@@ -14,7 +14,7 @@ const serverErrorHandler: ErrorRequestHandler = (err: ServerError, req, res, _ne
   }
 
   if (err instanceof mongoose.mongo.MongoError) {
-    res.status(400).send(parseMongoError(err.code))
+    res.status(400).send(parseMongoError(err))
     return
   }
 
@@ -30,12 +30,12 @@ const serverErrorHandler: ErrorRequestHandler = (err: ServerError, req, res, _ne
 const parseValidationError = (err: ValidationError) =>
   Object.values(err.errors).map(e => e.message).join('\n')
 
-const parseMongoError = (code: number | string) => {
-  switch (code) {
+const parseMongoError = (error: MongoError) => {
+  switch (error.code) {
     case 11000:
       return 'Duplicate key error.'
     default:
-      return `Database error. Code: ${code}`
+      return `Database error. Code: ${error.code}, Message: ${error.message}`
   }
 }
 
