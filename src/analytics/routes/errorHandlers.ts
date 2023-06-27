@@ -35,7 +35,7 @@ const parseMongoError = (code: number | string) => {
     case 11000:
       return 'Duplicate key error.'
     default:
-      return 'Database error.'
+      return `Database error. Code: ${code}`
   }
 }
 
