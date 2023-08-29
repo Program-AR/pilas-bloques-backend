@@ -1,6 +1,6 @@
 {
   "name": "pilas-bloques-backend",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "Pilas bloques backend",
   "main": "index.js",
   "scripts": {
