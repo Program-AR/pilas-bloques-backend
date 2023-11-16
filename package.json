@@ -22,7 +22,7 @@
     "lint": "eslint .",
     "prepackage": "rm -Rf dist && npm run build && cp -R node_modules dist/",
     "package": "npm run package:api && npm run package:analytics",
-    "package:api": "tar -czf pilasbloques-api.tar.gz dist/node_modules dist/api dist/models",
+    "package:api": "tar -czf pilasbloques-api.tar.gz dist/node_modules dist/api dist/models dist/status.d.ts dist/status.js",
     "package:analytics": "tar -czf pilasbloques-analytics.tar.gz dist/node_modules dist/analytics dist/models",
     "release:patch": "release patch",
     "release:minor": "release minor"
