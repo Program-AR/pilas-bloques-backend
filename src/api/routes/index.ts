@@ -3,7 +3,7 @@ import serverErrorHandler from './errorHandlers'
 import auth from './auth'
 import solutions from './solutions'
 import userIp from './ip'
-import status from '../../status'
+import status from '../../utils/status'
 
 const router = express.Router()
 

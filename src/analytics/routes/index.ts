@@ -2,7 +2,7 @@ import * as express from 'express'
 import * as cors from 'cors'
 import serverErrorHandler from './errorHandlers'
 import exercises from './exercises'
-import status from '../../status'
+import status from '../../utils/status'
 
 const router = express.Router()
 

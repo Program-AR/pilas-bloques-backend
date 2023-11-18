@@ -1,6 +1,6 @@
 {
   "name": "pilas-bloques-backend",
-  "version": "1.0.7",
+  "version": "1.0.9",
   "description": "Pilas bloques backend",
   "main": "index.js",
   "scripts": {
@@ -22,8 +22,8 @@
     "lint": "eslint .",
     "prepackage": "rm -Rf dist && npm run build && cp -R node_modules dist/",
     "package": "npm run package:api && npm run package:analytics",
-    "package:api": "tar -czf pilasbloques-api.tar.gz dist/node_modules dist/api dist/models",
-    "package:analytics": "tar -czf pilasbloques-analytics.tar.gz dist/node_modules dist/analytics dist/models",
+    "package:api": "tar -czf pilasbloques-api.tar.gz dist/node_modules dist/api dist/models dist/utils",
+    "package:analytics": "tar -czf pilasbloques-analytics.tar.gz dist/node_modules dist/analytics dist/models dist/utils",
     "release:patch": "release patch",
     "release:minor": "release minor"
   },
