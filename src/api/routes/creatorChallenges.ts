@@ -10,6 +10,13 @@ router.post('/share', tryy(tokenAuth), onlyIfAuth, syncHandler(async (req: Authe
   const { user, body } = req
   body.user = user
   const result = await CreatorChallengeModel.create({...body})
+  res.json(result)
+}))
+
+router.get('/sharedChallenge/:_id', (async (req: AuthenticatedRequest, res) => {
+  const { _id } = req.params as any
+  const challenge = await CreatorChallengeModel.findOne({ _id }).exec()
+  res.json(challenge)
 }))
 
 
