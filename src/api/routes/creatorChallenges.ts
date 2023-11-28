@@ -1,16 +1,17 @@
 import * as express from 'express'
 import { syncHandler, AuthenticatedRequest } from './utils'
 import { tokenAuth, tryy, onlyIfAuth } from './middlewares'
-import { CreatorChallengeModel } from '../../models/creatorChallenge'
+import { CreatorChallenge, CreatorChallengeModel } from '../../models/creatorChallenge'
 
 const router = express.Router()
-
 
 router.post('/share', tryy(tokenAuth), onlyIfAuth, syncHandler(async (req: AuthenticatedRequest, res) => {
   const { user, body } = req
   body.user = user
-  const result = await CreatorChallengeModel.create({...body})
-  res.json(result)
+  
+  const shareId = body.shareId || undefined //The findOne breaks if the id is empty string.
+  const posibleExistingChallenge : CreatorChallenge | undefined  = await CreatorChallengeModel.findOne({_id: shareId, user: user._id})
+  res.json(posibleExistingChallenge || await CreatorChallengeModel.create({...body}))
 }))
 
 router.get('/sharedChallenge/:_id', (async (req: AuthenticatedRequest, res) => {
