@@ -19,5 +19,12 @@ router.get('/sharedChallenge/:_id', (async (req: AuthenticatedRequest, res) => {
   res.json(challenge)
 }))
 
+router.put('/share/:_id', tryy(tokenAuth), onlyIfAuth, syncHandler(async (req: AuthenticatedRequest, res) => {
+  const { _id } = req.params as any
+  const challenge = await CreatorChallengeModel.findOne({ _id }).exec()
+  await challenge.set(req.body).save()
+  res.json(challenge)
+}))
+
 
 export default router
