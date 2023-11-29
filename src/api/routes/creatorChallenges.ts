@@ -5,8 +5,26 @@ import { CreatorChallengeModel } from '../../models/creatorChallenge'
 
 const router = express.Router()
 
-const upsertChallenge = async (_id, user, body) => {
-  let challenge = await CreatorChallengeModel.findOne({ _id, user}).exec()
+router.post('/share', tryy(tokenAuth), onlyIfAuth, syncHandler(async (req: AuthenticatedRequest, res) => {
+  const { user, body } = req
+  res.json(await createCreatorChallenge(body, user))
+}))
+
+router.get('/sharedChallenge/:sharedId', (async (req: AuthenticatedRequest, res) => {
+  const { sharedId } = req.params as any
+  const challenge = await CreatorChallengeModel.findOne({ sharedId }).exec()
+  res.json(challenge)
+}))
+
+router.put('/share/:sharedId', tryy(tokenAuth), onlyIfAuth, syncHandler(async (req: AuthenticatedRequest, res) => {
+  const { sharedId } = req.params as any
+  const { user, body } = req
+  res.json(await upsertChallenge(sharedId, user, body))
+}))
+
+
+const upsertChallenge = async (sharedId, user, body) => {
+  let challenge = await CreatorChallengeModel.findOne({ sharedId, user }).exec()
   if (!challenge) {
     challenge = await createCreatorChallenge(body, user)
   } else {
@@ -15,24 +33,38 @@ const upsertChallenge = async (_id, user, body) => {
   return challenge
 }
 
-const createCreatorChallenge = async (body, user) => await CreatorChallengeModel.create({ ...body, user })
+function generateChallengeID(): string {
+  const nowTimestamp: number = Date.now() - Date.UTC(2023, 0, 1)
+  return numToAlpha(nowTimestamp)
+}
 
-router.post('/share', tryy(tokenAuth), onlyIfAuth, syncHandler(async (req: AuthenticatedRequest, res) => {
-  const { user, body } = req
-  res.json(await createCreatorChallenge(body, user))
-}))
+function numToAlpha(num: number): string {
+  const mapping: string = 'abcdefghijklmnopqrstuvwxyz';
+  const alpha: string[] = [];
+  let remainingNum: number = num - 1;
+  while (remainingNum >= 0) {
+    alpha.push(mapping[remainingNum % 26]);
+    remainingNum = Math.floor(remainingNum / 26) - 1;
+  }
+  return alpha.reverse().join('');
+}
 
-router.get('/sharedChallenge/:_id', (async (req: AuthenticatedRequest, res) => {
-  const { _id } = req.params as any
-  const challenge = await CreatorChallengeModel.findOne({ _id }).exec()
-  res.json(challenge)
-}))
+const existChallengeWithSharedId = async (sharedId) => await CreatorChallengeModel.exists({ sharedId })
 
-router.put('/share/:_id', tryy(tokenAuth), onlyIfAuth, syncHandler(async (req: AuthenticatedRequest, res) => {
-  const { _id } = req.params as any
-  const { user, body } = req
-  res.json(await upsertChallenge(_id, user, body))
-}))
+const generateUniqueChallengeSharedId = async () => {
+  let sharedId
+
+  do {
+    sharedId = generateChallengeID()
+  } while (await existChallengeWithSharedId(sharedId))
+
+  return sharedId
+}
+
+const createCreatorChallenge = async (body, user) => {
+  const sharedId = await generateUniqueChallengeSharedId()
+  return await CreatorChallengeModel.create({ ...body, user, sharedId })
+}
 
 
 export default router

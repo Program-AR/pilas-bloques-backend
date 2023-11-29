@@ -5,7 +5,7 @@ import { StaticAnalysis } from './staticAnalysis'
 import { User } from './user'
 
 //This is duplicated in pilas react, remember to unificar when making the monorepo :)
-const sceneTypes =  ["Lita", "Duba", "Toto", "Coty", "Manic", "Chuy", "Yvoty", "Capy", "Custom"] as const //Used for file validity checking
+const sceneTypes = ["Lita", "Duba", "Toto", "Coty", "Manic", "Chuy", "Yvoty", "Capy", "Custom"] as const //Used for file validity checking
 export type SceneType = typeof sceneTypes[number]
 
 type Cell = string
@@ -17,7 +17,7 @@ export type Scene = {
     maps: SceneMap[]
 }
 
-type Assesments =  {
+type Assesments = {
     itWorks?: boolean, // old "debeFelicitar", default true
     decomposition?: DecompositionAssessment,
     simpleRepetition?: boolean,
@@ -29,6 +29,8 @@ type DecompositionAssessment = { maxProgramLength: number }
 
 @modelOptions({ schemaOptions: { collection: 'creatorChallenges' }, options: { allowMixed: Severity.ALLOW } })
 export class CreatorChallenge {
+    @prop({ required: true, unique: true })
+    sharedId: string
     @prop({ required: true })
     fileVersion: number
     @prop({ required: true })
