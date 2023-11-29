@@ -6,19 +6,20 @@ import { CreatorChallengeModel } from '../../models/creatorChallenge'
 const router = express.Router()
 
 const upsertChallenge = async (_id, user, body) => {
-  let challenge = await CreatorChallengeModel.findOne({ _id, user }).exec()
+  let challenge = await CreatorChallengeModel.findOne({ _id, user}).exec()
   if (!challenge) {
-    challenge = await CreatorChallengeModel.create({ ...body })
+    challenge = await createCreatorChallenge(body, user)
   } else {
     await challenge.set(body).save()
   }
   return challenge
 }
 
+const createCreatorChallenge = async (body, user) => await CreatorChallengeModel.create({ ...body, user })
+
 router.post('/share', tryy(tokenAuth), onlyIfAuth, syncHandler(async (req: AuthenticatedRequest, res) => {
   const { user, body } = req
-  body.user = user
-  res.json(await CreatorChallengeModel.create({ ...body }))
+  res.json(await createCreatorChallenge(body, user))
 }))
 
 router.get('/sharedChallenge/:_id', (async (req: AuthenticatedRequest, res) => {
