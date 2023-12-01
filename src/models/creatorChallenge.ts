@@ -1,7 +1,4 @@
 import { prop, getModelForClass, Severity, modelOptions, Ref } from '@typegoose/typegoose'
-import { Schema } from 'mongoose'
-import { Context } from './context'
-import { StaticAnalysis } from './staticAnalysis'
 import { User } from './user'
 
 //This is duplicated in pilas react, remember to unificar when making the monorepo :)
@@ -27,8 +24,8 @@ type Assesments = {
 
 type DecompositionAssessment = { maxProgramLength: number }
 
-@modelOptions({ schemaOptions: { collection: 'creatorChallenges' }, options: { allowMixed: Severity.ALLOW } })
-export class CreatorChallenge {
+@modelOptions({ schemaOptions: { collection: 'userChallenges' }, options: { allowMixed: Severity.ALLOW } })
+export class UserChallenge {
     @prop({ required: true, unique: true })
     sharedId: string
     @prop({ required: true })
@@ -58,4 +55,4 @@ export class CreatorChallenge {
 }
 
 
-export const CreatorChallengeModel = getModelForClass<typeof CreatorChallenge>(CreatorChallenge)
+export const UserChallengeModel = getModelForClass<typeof UserChallenge>(UserChallenge)

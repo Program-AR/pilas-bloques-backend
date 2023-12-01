@@ -1,7 +1,7 @@
 import * as express from 'express'
 import { syncHandler, AuthenticatedRequest } from './utils'
 import { tokenAuth, tryy, onlyIfAuth } from './middlewares'
-import { CreatorChallengeModel } from '../../models/creatorChallenge'
+import { UserChallengeModel as UserChallengeModel } from '../../models/creatorChallenge'
 
 const router = express.Router()
 
@@ -10,9 +10,9 @@ router.post('/share', tryy(tokenAuth), onlyIfAuth, syncHandler(async (req: Authe
   res.json(await createCreatorChallenge(body, user))
 }))
 
-router.get('/sharedChallenge/:sharedId', (async (req: AuthenticatedRequest, res) => {
+router.get('/userChallenge/:sharedId', (async (req: AuthenticatedRequest, res) => {
   const { sharedId } = req.params as any
-  const challenge = await CreatorChallengeModel.findOne({ sharedId }).exec()
+  const challenge = await UserChallengeModel.findOne({ sharedId }).exec()
   res.json(challenge)
 }))
 
@@ -24,7 +24,7 @@ router.put('/share/:sharedId', tryy(tokenAuth), onlyIfAuth, syncHandler(async (r
 
 
 const upsertChallenge = async (sharedId, user, body) => {
-  let challenge = await CreatorChallengeModel.findOne({ sharedId, user }).exec()
+  let challenge = await UserChallengeModel.findOne({ sharedId, user }).exec()
   if (!challenge) {
     challenge = await createCreatorChallenge(body, user)
   } else {
@@ -39,17 +39,17 @@ function generateChallengeID(): string {
 }
 
 function numToAlpha(num: number): string {
-  const mapping: string = 'abcdefghijklmnopqrstuvwxyz';
-  const alpha: string[] = [];
-  let remainingNum: number = num - 1;
+  const mapping = '012345679' //We dont use letters to prevent offensive words. We removed the 8 for the same reason.
+  const alpha: string[] = []
+  let remainingNum: number = num - 1
   while (remainingNum >= 0) {
-    alpha.push(mapping[remainingNum % 26]);
-    remainingNum = Math.floor(remainingNum / 26) - 1;
+    alpha.push(mapping[remainingNum % 9])
+    remainingNum = Math.floor(remainingNum / 9) - 1
   }
-  return alpha.reverse().join('');
+  return alpha.reverse().join('')
 }
 
-const existChallengeWithSharedId = async (sharedId) => await CreatorChallengeModel.exists({ sharedId })
+const existChallengeWithSharedId = async (sharedId) => await UserChallengeModel.exists({ sharedId })
 
 const generateUniqueChallengeSharedId = async () => {
   let sharedId
@@ -63,7 +63,7 @@ const generateUniqueChallengeSharedId = async () => {
 
 const createCreatorChallenge = async (body, user) => {
   const sharedId = await generateUniqueChallengeSharedId()
-  return await CreatorChallengeModel.create({ ...body, user, sharedId })
+  return await UserChallengeModel.create({ ...body, user, sharedId })
 }
 
 
