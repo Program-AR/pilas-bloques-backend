@@ -35,34 +35,11 @@ const upsertChallenge = async (sharedId, user, body) => {
 
 function generateChallengeID(): string {
   const nowTimestamp: number = Date.now() - Date.UTC(2023, 0, 1)
-  return numToAlpha(nowTimestamp)
-}
-
-function numToAlpha(num: number): string {
-  const mapping = '012345679' //We dont use letters to prevent offensive words. We removed the 8 for the same reason.
-  const alpha: string[] = []
-  let remainingNum: number = num - 1
-  while (remainingNum >= 0) {
-    alpha.push(mapping[remainingNum % 9])
-    remainingNum = Math.floor(remainingNum / 9) - 1
-  }
-  return alpha.reverse().join('')
-}
-
-const existChallengeWithSharedId = async (sharedId) => await UserChallengeModel.exists({ sharedId })
-
-const generateUniqueChallengeSharedId = async () => {
-  let sharedId
-
-  do {
-    sharedId = generateChallengeID()
-  } while (await existChallengeWithSharedId(sharedId))
-
-  return sharedId
+  return nowTimestamp.toString()
 }
 
 const createUserChallenge = async (body, user) => {
-  const sharedId = await generateUniqueChallengeSharedId()
+  const sharedId = generateChallengeID()
   return await UserChallengeModel.create({ ...body, user, sharedId })
 }
 

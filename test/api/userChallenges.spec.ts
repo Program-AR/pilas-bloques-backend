@@ -58,11 +58,3 @@ describeApi('User challenges', (request, { authenticated }) => {
   })
 
 })
-
-/**
- * Si no está logueado nunca entra, asi que siempre testear logueado
- * 
- * - Challenge no existe, lo guardo, el id ya existe, creo otro.
- * 
- * 
- */
