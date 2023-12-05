@@ -1,4 +1,3 @@
-import { NextFunction } from 'express'
 import { userFingerprint } from '../../src/api/routes/middlewares'
 import describeApi from './describeApi'
 import { fetchCalled, fetchBodyMatch, hasBodyProperty, matchBody } from './utils'

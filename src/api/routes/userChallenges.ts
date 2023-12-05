@@ -5,9 +5,9 @@ import { UserChallengeModel as UserChallengeModel } from '../../models/creatorCh
 
 const router = express.Router()
 
-router.post('/share', tryy(tokenAuth), onlyIfAuth, syncHandler(async (req: AuthenticatedRequest, res) => {
+router.post('/userChallenge', tryy(tokenAuth), onlyIfAuth, syncHandler(async (req: AuthenticatedRequest, res) => {
   const { user, body } = req
-  res.json(await createCreatorChallenge(body, user))
+  res.json(await createUserChallenge(body, user))
 }))
 
 router.get('/userChallenge/:sharedId', (async (req: AuthenticatedRequest, res) => {
@@ -16,7 +16,7 @@ router.get('/userChallenge/:sharedId', (async (req: AuthenticatedRequest, res) =
   res.json(challenge)
 }))
 
-router.put('/share/:sharedId', tryy(tokenAuth), onlyIfAuth, syncHandler(async (req: AuthenticatedRequest, res) => {
+router.put('/userChallenge/:sharedId', tryy(tokenAuth), onlyIfAuth, syncHandler(async (req: AuthenticatedRequest, res) => {
   const { sharedId } = req.params as any
   const { user, body } = req
   res.json(await upsertChallenge(sharedId, user, body))
@@ -26,7 +26,7 @@ router.put('/share/:sharedId', tryy(tokenAuth), onlyIfAuth, syncHandler(async (r
 const upsertChallenge = async (sharedId, user, body) => {
   let challenge = await UserChallengeModel.findOne({ sharedId, user }).exec()
   if (!challenge) {
-    challenge = await createCreatorChallenge(body, user)
+    challenge = await createUserChallenge(body, user)
   } else {
     await challenge.set(body).save()
   }
@@ -61,7 +61,7 @@ const generateUniqueChallengeSharedId = async () => {
   return sharedId
 }
 
-const createCreatorChallenge = async (body, user) => {
+const createUserChallenge = async (body, user) => {
   const sharedId = await generateUniqueChallengeSharedId()
   return await UserChallengeModel.create({ ...body, user, sharedId })
 }
