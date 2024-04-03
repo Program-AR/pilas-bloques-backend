@@ -36,7 +36,7 @@ router.post('/password-recovery', requiredQueryParams('userIdentifier'), syncHan
   const user = identifierIsMail ? await UserModel.findByEmail(userIdentifier).exec() : await UserModel.findByUsername(userIdentifier).exec()
   
   if (user && user.email) await transport.sendMail(passwordRecoveryMail(user))
-  res.json(toJsonUser(user))
+  res.json({})
 }))
 
 router.post('/answers', tokenAuth, requiredBody('question', 'response'), syncHandler(async ({ user, body }: AuthenticatedRequest, res) => {
