@@ -123,9 +123,16 @@ describeApi('Users', (request, { authenticated, token }) => {
 
   describe('POST /password-recovery', () => {
 
-    test('Send email', async () => {
+    test('Send email - user identifier', async () => {
       await request().post('/register').send({ ...userJson, username: 'TEST', email: 'lita.sadosky@program.ar' })
       await request().post(`/password-recovery?userIdentifier=TEST`)
+        .expect(200)
+        .then(emailSent('Cambiar tu contraseña de Pilas Bloques'))
+    })
+
+    test('Send email - email identifier', async () => {
+      await request().post('/register').send({ ...userJson, username: 'TEST', email: 'lita.sadosky@program.ar' })
+      await request().post(`/password-recovery?userIdentifier=lita.sadosky@program.ar`)
         .expect(200)
         .then(emailSent('Cambiar tu contraseña de Pilas Bloques'))
     })
