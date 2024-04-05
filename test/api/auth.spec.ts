@@ -123,23 +123,28 @@ describeApi('Users', (request, { authenticated, token }) => {
 
   describe('POST /password-recovery', () => {
 
-    test('Send email', async () => {
+    test('Send email - user identifier', async () => {
       await request().post('/register').send({ ...userJson, username: 'TEST', email: 'lita.sadosky@program.ar' })
-      await request().post(`/password-recovery?username=TEST`)
+      await request().post(`/password-recovery?userIdentifier=TEST`)
         .expect(200)
         .then(emailSent('Cambiar tu contraseña de Pilas Bloques'))
-        .then(matchBody({ email: 'l**********y@program.ar' }))
+    })
+
+    test('Send email - email identifier', async () => {
+      await request().post('/register').send({ ...userJson, username: 'TEST', email: 'lita.sadosky@program.ar' })
+      await request().post(`/password-recovery?userIdentifier=lita.sadosky@program.ar`)
+        .expect(200)
+        .then(emailSent('Cambiar tu contraseña de Pilas Bloques'))
     })
 
     test('Does not send email', async () => {
-      await request().post(`/password-recovery?username=${username}`)
+      await request().post(`/password-recovery?userIdentifier=${username}`)
         .expect(200)
-        .then(matchBody({ email: null }))
     })
 
     test('User does not exists', async () => {
-      await request().post(`/password-recovery?username=FAKE`)
-        .expect(404, 'User does not exist')
+      await request().post(`/password-recovery?userIdentifier=FAKE`)
+        .expect(200)
     })
   })
 

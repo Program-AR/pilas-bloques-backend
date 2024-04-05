@@ -46,10 +46,19 @@ export class User implements Base<string> {
    * @returns the user from the DB
    */
   static findByUsername(this: ReturnModelType<typeof User>, username: string) {
-    return this.findOne({ 'username': this.standarizeUsername(username) })
+    return this.findOne({ 'username': this.standarizeIdentifier(username) })
   }
 
-  static standarizeUsername(this: ReturnModelType<typeof User>, username: string) {
+  /**
+ * 
+ * @param mail is the non-standarized email (could have UpperCase letters)
+ * @returns the user from the DB
+ */
+  static findByEmail(this: ReturnModelType<typeof User>, email: string) {
+    return this.findOne({ 'email': this.standarizeIdentifier(email) })
+  }
+
+  static standarizeIdentifier(this: ReturnModelType<typeof User>, username: string) {
     return username.toLowerCase()
   }
 }
