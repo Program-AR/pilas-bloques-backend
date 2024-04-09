@@ -30,6 +30,13 @@ docker run -d --rm -p 27017:27017 -v $HOME/mongoData:/data/db --name mongoPilasB
 
 For development
 - Run `npm run dev` for server starts. Any file change should re-run it. This command only starts API and Analytics servers. It's important to NOT close those tabs (API and Analytics) before ending the processes (using `CTRL + C`); otherwise you will need to kill it manually (using [`fuser`](https://linux.die.net/man/1/fuser) command).
+Example:
+ ```
+ > fuser <port>/tcp
+ pid
+
+ > kill pid
+ ```
 
 For production
 - Run `npm run build` for make `dist` directory.
