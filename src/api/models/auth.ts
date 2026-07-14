@@ -25,9 +25,25 @@ type TokenData = {
   id: string
 }
 
+type ForoTokenData = {
+  id: string,
+  username: string,
+  email: string
+}
+
 const secret = process.env.API_JWT_SECRET || 'test'
 
 export const newToken = (user: User, daysUntilExpiration: number) => generateToken({ id: user._id }, daysUntilExpiration)
+
+export const newForoToken = (user: User): string => {
+  const payloadForo: ForoTokenData = {
+    id: user._id.toString(),
+    username: user.username,
+    email: `user_${user._id}@comunidad.pilasbloques.program.ar`
+  }
+
+  return jwt.sign(payloadForo, secret, { expiresIn: '1 day' })
+}
 
 const generateToken = (data: TokenData, dayUntilExpiration: number): string => jwt.sign(data, secret, { expiresIn: dayUntilExpiration + ' days' })
 

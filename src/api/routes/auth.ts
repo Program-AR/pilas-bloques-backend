@@ -1,6 +1,6 @@
 import * as express from 'express'
 import { syncHandler, AuthenticatedRequest } from './utils'
-import { generatePassword, verifyPassword, newToken, parseToken } from '../models/auth'
+import { generatePassword, verifyPassword, newToken, parseToken, newForoToken } from '../models/auth'
 import { tokenAuth, requiredBody, requiredQueryParams, passwordChangeAuth } from './middlewares'
 import { WrongCredentials } from './errorHandlers'
 import { passwordRecoveryMail } from '../mailing/mails'
@@ -9,6 +9,17 @@ import { User, UserModel } from '../../models/user'
 const LOGIN_EXPIRATION_DAYS = parseInt(process.env.LOGIN_EXPIRATION_DAYS)
 
 const toJsonUser = (user: User) => ({ id: user._id, token: newToken(user,LOGIN_EXPIRATION_DAYS), ...user.profile, answeredQuestionIds: user.answeredQuestionIds, experimentGroup: user.experimentGroup })
+const setForoCookie = (res: express.Response, user: User) => {
+  const isProd = process.env.NODE_ENV === 'production'
+
+  res.cookie('foro_session', newForoToken(user), {
+    httpOnly: true,
+    secure: isProd,
+    ...(isProd && { domain: process.env.COOKIE_DOMAIN || '.program.ar' }),
+    maxAge: LOGIN_EXPIRATION_DAYS * 24 * 60 * 60 * 1000,
+    path: '/'
+  })
+}
 
 const router = express.Router()
 
@@ -16,14 +27,30 @@ router.post('/register', requiredBody('username', 'password'), syncHandler(async
   const username = UserModel.standarizeIdentifier(body.username)
   const experimentGroup = body.context.experimentGroup
   const user = await UserModel.create({ ...body, experimentGroup, username, ...generatePassword(body.password) })
+
+  setForoCookie(res, user)
   res.json(toJsonUser(user))
 }))
 
 router.post('/login', requiredBody('username', 'password'), syncHandler(async ({ body }: AuthenticatedRequest, res) => {
   const user = await UserModel.findByUsername(body.username).exec()
   if (!user || !verifyPassword(body.password, user)) throw new WrongCredentials()
+
+  setForoCookie(res, user)
   res.json(toJsonUser(user))
 }))
+
+router.post('/logout', (_req, res) => {
+  const isProd = process.env.NODE_ENV === 'production'
+
+  res.clearCookie('foro_session', {
+    httpOnly: true,
+    secure: isProd,
+    ...(isProd && { domain: process.env.COOKIE_DOMAIN || '.program.ar' }),
+    path: '/'
+  })
+  res.json({ ok: true })
+})
 
 router.put('/credentials', requiredBody('password'), passwordChangeAuth, syncHandler(async ({ user, body }: AuthenticatedRequest, res) => {
   await user.set(generatePassword(body.password)).save()
