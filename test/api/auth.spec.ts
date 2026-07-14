@@ -11,6 +11,7 @@ describeApi('Users', (request, { authenticated, token }) => {
       request().post('/register')
         .send({ ...userJson, username: 'RANDOM', profile: { nickName: 'NICK' } })
         .expect(200)
+        .expect('set-cookie', /foro_session=/)
         .then(matchBody({ nickName: 'NICK' }))
         .then(hasBodyProperty('id'))
         .then(hasBodyProperty('token'))
@@ -45,6 +46,7 @@ describeApi('Users', (request, { authenticated, token }) => {
       request().post('/login')
         .send({ username, password })
         .expect(200)
+        .expect('set-cookie', /foro_session=/)
         .then(matchBody({ nickName: userJson.profile.nickName }))
         .then(hasBodyProperty('id'))
         .then(hasBodyProperty('token'))
@@ -71,6 +73,16 @@ describeApi('Users', (request, { authenticated, token }) => {
     )
   })
 
+
+  describe('POST /logout', () => {
+    test('Do logout clears foro_session cookie', () =>
+      request().post('/logout')
+        .send()
+        .expect(200)
+        .expect('set-cookie', /foro_session=;/)
+        .then(matchBody({ ok: true }))
+    )
+  })
 
   describe('PUT /credentials', () => {
     test('Change credentials by parent DNI', async () => {
