@@ -35,3 +35,24 @@ export const parseToken = (token: string): TokenData => {
   try { return jwt.verify(token, secret) as TokenData }
   catch { throw new Unauthorized() }
 }
+
+export type ForoTokenData = {
+  id: string,
+  username: string,
+  email: string
+}
+
+export const newForoToken = (user: User): string => {
+  const payloadForo: ForoTokenData = {
+    id: user._id.toString(),
+    username: user.username,
+    email: user.email || ''
+  }
+
+  return jwt.sign(payloadForo, secret, { expiresIn: '1 day' })
+}
+
+export const parseForoToken = (token: string): ForoTokenData => {
+  try { return jwt.verify(token, secret) as ForoTokenData }
+  catch { throw new Unauthorized() }
+}

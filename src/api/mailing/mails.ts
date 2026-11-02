@@ -5,17 +5,47 @@ import { pilasBloquesLogo, programarLogo, sadoskyLogo, totoGlass } from './attat
 const APP_PASSWORD_RECOVERY_URL = `${process.env.API_APP_URL}${process.env.PASSWORD_RECOVERY_PATH}`
 const PASSWORD_RECOVERY_EXPIRATION_DAYS = parseInt(process.env.PASSWORD_RECOVERY_EXPIRATION_DAYS)
 
+const escapeHtml = (text: string) => {
+  return (text || '').replace(/[&<>"']/g, (char) => {
+    switch (char) {
+      case '&': return '&amp;'
+      case '<': return '&lt;'
+      case '>': return '&gt;'
+      case '"': return '&quot;'
+      case "'": return '&#39;'
+      default: return char
+    }
+  })
+}
+
 export const passwordRecoveryMail = (user: User) => {
+  const name = escapeHtml(user.profile?.nickName || user.username || '')
   const url = `${APP_PASSWORD_RECOVERY_URL}?token=${newToken(user, PASSWORD_RECOVERY_EXPIRATION_DAYS)}`
   return createMail(user.email, "Cambiar tu contraseña de Pilas Bloques", `
     <img src="cid:${totoGlass.cid}" style="float:right"/>
-    <p>¡Hola ${user.profile.nickName || user.username || ''}!</p>
+    <p>¡Hola ${name}!</p>
     <p>Estás recibiendo este correo electrónico porque alguien pidió <strong>restablecer tu contraseña</strong> en Pilas Bloques. Si no fuiste vos, podés descartar este mensaje.</p>
     <p>Si no utilizas este enlace en un plazo de 3 días, caducará.</p>
     <p>
       Para restablecer tu contraseña, entrá acá y seguí los pasos:<br/>
       <a href="${url}" style="color:${colors.link}">${url}</a>
     </p>`)
+}
+
+export const forumVerificationMail = (user: User, email: string, code: string) => {
+  const name = escapeHtml(user.profile?.nickName || user.username || '')
+  return createMail(email, "Código de ingreso al Foro de Pilas Bloques", `
+    <img src="cid:${totoGlass.cid}" style="float:right"/>
+    <p>¡Hola ${name}!</p>
+    <p>Estás recibiendo este correo porque solicitaste ingresar a la <strong>Comunidad de Pilas Bloques</strong>.</p>
+    <p>Tu código de verificación es:</p>
+    <p style="text-align: center; margin: 20px 0;">
+      <span style="font-size: 28px; font-weight: bold; letter-spacing: 5px; background: #E8F4F8; padding: 10px 20px; border-radius: 8px; color: ${colors.link};">
+        ${escapeHtml(code)}
+      </span>
+    </p>
+    <p>Este código tiene una validez de <strong>15 minutos</strong>. Si no solicitaste ingresar, podés ignorar este correo.</p>
+  `)
 }
 
 const createMail = (to: string, subject: string, content: string) => ({
