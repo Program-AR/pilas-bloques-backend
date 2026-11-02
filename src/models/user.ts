@@ -27,6 +27,10 @@ export class User implements Base<string> {
   parentDNI: string
   @prop()
   email?: string
+  @prop({ default: false })
+  isForumPrimary?: boolean
+  @prop()
+  forumVerifiedAt?: Date
   @prop({ _id: false, type: Answer })
   answers: Answer[]
   @prop()
@@ -56,6 +60,14 @@ export class User implements Base<string> {
  */
   static findByEmail(this: ReturnModelType<typeof User>, email: string) {
     return this.findOne({ 'email': this.standarizeIdentifier(email) })
+  }
+
+  /**
+   * @param email is the email to search
+   * @returns all users associated with this email
+   */
+  static findAllByEmail(this: ReturnModelType<typeof User>, email: string) {
+    return this.find({ 'email': this.standarizeIdentifier(email) })
   }
 
   static standarizeIdentifier(this: ReturnModelType<typeof User>, username: string) {
