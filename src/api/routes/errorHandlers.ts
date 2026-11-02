@@ -58,6 +58,13 @@ export class Unauthorized extends HttpCodeError {
   }
 }
 
+export class Forbidden extends HttpCodeError {
+  constructor(message = 'Forbidden') {
+    super(403, message)
+  }
+}
+
+
 export class EntityNotFound extends HttpCodeError {
   constructor(entity: string, id?: any) {
     super(404, `${entity}${id ? `(${id})` : ''} not found.`)
