@@ -5,8 +5,9 @@ import { tokenAuth, requiredBody, requiredQueryParams, passwordChangeAuth } from
 import { WrongCredentials } from './errorHandlers'
 import { passwordRecoveryMail } from '../mailing/mails'
 import { User, UserModel } from '../../models/user'
+import { setForoCookie, clearForoCookie } from './forumCookies'
 
-const LOGIN_EXPIRATION_DAYS = parseInt(process.env.LOGIN_EXPIRATION_DAYS)
+const LOGIN_EXPIRATION_DAYS = parseInt(process.env.LOGIN_EXPIRATION_DAYS) || 30
 
 const toJsonUser = (user: User) => ({ id: user._id, token: newToken(user,LOGIN_EXPIRATION_DAYS), ...user.profile, answeredQuestionIds: user.answeredQuestionIds, experimentGroup: user.experimentGroup })
 
@@ -22,8 +23,18 @@ router.post('/register', requiredBody('username', 'password'), syncHandler(async
 router.post('/login', requiredBody('username', 'password'), syncHandler(async ({ body }: AuthenticatedRequest, res) => {
   const user = await UserModel.findByUsername(body.username).exec()
   if (!user || !verifyPassword(body.password, user)) throw new WrongCredentials()
+
+  if (user.email && user.isForumPrimary && user.forumVerifiedAt) {
+    setForoCookie(res, user)
+  }
+
   res.json(toJsonUser(user))
 }))
+
+router.post('/logout', (_req, res) => {
+  clearForoCookie(res)
+  res.json({ ok: true })
+})
 
 router.put('/credentials', requiredBody('password'), passwordChangeAuth, syncHandler(async ({ user, body }: AuthenticatedRequest, res) => {
   await user.set(generatePassword(body.password)).save()
@@ -35,7 +46,17 @@ router.post('/password-recovery', requiredQueryParams('userIdentifier'), syncHan
   const identifierIsMail = userIdentifier.includes('@')
   const user = identifierIsMail ? await UserModel.findByEmail(userIdentifier).exec() : await UserModel.findByUsername(userIdentifier).exec()
   
-  if (user && user.email) await transport.sendMail(passwordRecoveryMail(user))
+  if (user && user.email) {
+    try {
+      await transport.sendMail(passwordRecoveryMail(user))
+    } catch (err: any) {
+      if (process.env.NODE_ENV !== 'production') {
+        console.warn(`[DEV SMTP WARNING] No se pudo enviar email de recuperación: ${err.message}`)
+      } else {
+        throw err
+      }
+    }
+  }
   res.json({})
 }))
 
